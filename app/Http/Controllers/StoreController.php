@@ -1,0 +1,147 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Store;
+use Illuminate\Http\Request;
+use App\Http\Controllers\ResponseController;
+
+class StoreController extends Controller
+{
+    private $response;
+
+    public function __construct()
+    {
+        $this->response = new ResponseController();
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index($records)
+    {
+        $stores = Store::paginate($records);
+
+        $storesNum = $stores->count();
+        if ($storesNum == 0) {
+            return $this->response->__invoke(
+                false,
+                "No stores were found.",
+                null,
+                404
+            );
+        }
+
+        return $this->response->__invoke(
+            true,
+            "Store" . (($storesNum > 1) ? "s were" : " was") . " retrieved.",
+            $stores,
+            200
+        );
+    }
+
+    public function list()
+    {
+        $stores = Store::all();
+
+        $storesNum = $stores->count();
+        if ($storesNum == 0) {
+            return $this->response->__invoke(
+                false,
+                "No stores were found.",
+                404,
+                null
+            );
+        }
+
+        return $this->response->__invoke(
+            true,
+            "Store" . (($storesNum > 1) ? "s were" : " was") . " retrieved.",
+            200,
+            $stores
+        );
+    }
+
+    /**
+     * 
+     */
+    public function searchList($query)
+    {
+        $stores = Store::where("name", "LIKE", "%$query%")
+            ->orWhere("location", "LIKE", "%$query%")->get();
+
+        $storesNum = $stores->count();
+        if ($storesNum == 0) {
+            return $this->response->__invoke(
+                false,
+                "No stores were found.",
+                null,
+                404
+            );
+        }
+
+        return $this->response->__invoke(
+            true,
+            "Store" . (($storesNum > 1) ? "s were" : " was") . " retrieved.",
+            $stores,
+            200
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $store = Store::create($request->all());
+
+        return $this->response->__invoke(
+            true,
+            "Store was created successfully.",
+            201,
+            $store,
+        );
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Store $store)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $storeId)
+    {
+        $store = Store::find($storeId);
+
+        if (!$store) {
+            return $this->response->__invoke(
+                false,
+                "Store is not found.",
+                null,
+                404
+            );
+        }
+
+        $store->update($request->all());
+
+        return $this->response->__invoke(
+            true,
+            "Store was updated successfully.",
+            $store,
+            200
+        );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Store $store)
+    {
+        //
+    }
+}
