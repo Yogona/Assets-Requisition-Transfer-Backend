@@ -47,5 +47,10 @@ class RoleSeeder extends Seeder
             "name" => "staff",
             "description" => ""
         ]);
+
+        Role::create([
+            "name" => "store officer",
+            "description" => ""
+        ]);
     }
 }

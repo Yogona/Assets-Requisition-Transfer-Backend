@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\IssueNoteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
@@ -61,5 +62,12 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get("", "list");
         Route::get("search/{query}", "searchList");
         Route::put("update/{store_id}", "update");
+    });
+
+    //Issue notes
+    Route::controller(IssueNoteController::class)->prefix('issue-notes')->group(function(){
+        Route::post('', 'create');
+        Route::get('/records/{records}', 'index');
+        Route::patch('sign', 'sign');
     });
 });
