@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\IssueNoteController;
 use App\Http\Controllers\RoleController;
@@ -51,6 +52,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::controller(UserController::class)->prefix('users')->group(function(){
         Route::post('create', 'create');
         Route::post('upload', 'uploadUsers');
+        Route::patch("update/{user_id}", "updateProfile");
+        Route::delete("delete/{user_id}", "destroy");
         Route::get("role/{type}/records/{records}", "index");
         Route::get("role/{type}/search/{query}/records/{records}", "searchIndex");
     });
@@ -70,4 +73,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/records/{records}', 'index');
         Route::patch('sign', 'sign');
     });
+
+    Route::get("counter", [CounterController::class, "__invoke"]);
 });

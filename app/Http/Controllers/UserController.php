@@ -72,7 +72,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $user = User::create($request->all());
-        $user->update(['password' => Hash::make($user->username)]);
+        $user->update(['password' => Hash::make($user->email)]);
 
         return $this->response->__invoke(
             true, "User was created.", 201, $user
@@ -182,7 +182,7 @@ class UserController extends Controller
                 "phone"         => $record["phone"],
                 "role"          => $record["roleId"],
                 "department"    => $record["departId"],
-                "password"      => Hash::make($record["phone"])
+                "password"      => Hash::make($record["email"])
             ]);
         }
 
@@ -190,7 +190,7 @@ class UserController extends Controller
 
         return $this->response->__invoke(
             true, 
-            "Contacts were validated successfully, they will continue uploading in the background. We will let you know once the process is complete!.", 
+            "Users data were validated successfully, they will continue uploading in the background. We will let you know once the process is complete!.", 
             200
         );
     }
@@ -198,17 +198,33 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function updateProfile(Request $request, $userId)
     {
-        //
+        $user = User::find($userId);
+
+        $user->update([
+            "first_name"    => $request->first_name,
+            "last_name"     => $request->last_name,
+            "gender"        => $request->gender,
+            "role"          => $request->role,
+            "department"        => $request->depart
+        ]);
+
+        return $this->response->__invoke(
+            true,
+            "Profile was updated!",
+            200
+        );
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(Request $request)
     {
-        //
+        
+
+
     }
 
     /**
@@ -222,8 +238,16 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, $userId)
     {
-        //
+        $user = User::find($userId);
+
+        $user->delete();
+
+        return $this->response->__invoke(
+            true,
+            "User was deleted!",
+            200
+        );
     }
 }
