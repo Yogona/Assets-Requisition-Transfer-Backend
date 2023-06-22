@@ -3,7 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\IssueNoteController;
+use App\Http\Controllers\NoteItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
@@ -44,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Departments
     Route::controller(DepartmentController::class)->prefix('departs')->group(function(){
         Route::post('create', 'create');
+        Route::delete("delete/{depart_id}", "destroy");
         Route::get('list', 'list');
         Route::get('', 'index');
     });
@@ -75,4 +78,23 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::get("counter", [CounterController::class, "__invoke"]);
+
+    //Note instruments
+    Route::controller(NoteItemController::class)->prefix("instruments/note/{note_code}")->group(function(){
+        Route::get("records/{records}", "index");
+        Route::post("register", "registerByRequesition");
+    });
+
+    //Instruments
+    // Route::controller(InstrumentController::class)->prefix("instruments")->group(function(){
+        
+    // });
+});
+
+Route::fallback(function () {
+    return response()->json([
+        "success"   => false,
+        "message"   => "Redource does not exist.",
+        "data"      => null
+    ], 404);
 });

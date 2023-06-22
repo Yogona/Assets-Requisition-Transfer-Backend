@@ -27,17 +27,11 @@ class IssueNoteController extends Controller
         $user = $request->user();
         $issueNotes = null;
 
-        if($user->role == 1){//Admin
-            $issueNotes = IssueNote::where("hod_signature", NULL)->where("store_officer_signature", NULL);
-        } else if($user->role == 2 || $user->role == 3 || $user->role == 5){ //HOD , HPMU or Supplies officer
-            $issueNotes = IssueNote::where("department", $user->department)->where("hod_signature", NULL);
-        } else if($user->role == 8){
-            $issueNotes = IssueNote::where("store_officer_signature", NULL);
-        } else if($user->role == 7){
-            $issueNotes = IssueNote::where("requester", $user->id)->where(function($query){
-                $query->where("hod_signature", NULL)->orWhere("store_officer_signature", NULL);
-            });
-        } 
+        if($user->role == 2 || $user->role == 3 || $user->role == 5){ //HOD , HPMU or Supplies officer
+            $issueNotes = IssueNote::where("department", $user->department);
+        } else{
+            $issueNotes = IssueNote::orderBy("created_at", "DESC");
+        }
 
         $notesNum = $issueNotes->count();
         if($notesNum == 0){
@@ -57,6 +51,12 @@ class IssueNoteController extends Controller
 
             $requester = User::find($issueNote->requester);
             $issueNote->requester = $requester;
+
+            $hod = User::find($issueNote->hod_signature);
+            $issueNote->hod_signature = $hod;
+
+            $storeOfficer = User::find($issueNote->store_officer_signature);
+            $issueNote->store_officer_signature = $storeOfficer;
         }
 
         return $this->res->__invoke(
@@ -69,25 +69,27 @@ class IssueNoteController extends Controller
      */
     public function create(Request $request)
     {
+        $user = $request->user();
+
         $timestamp = time();
         $noteCode = "IN$timestamp";
 
         $issueNote = IssueNote::create([
-            "note_code" => $noteCode,
-            "department" => $request->department,
-            "store" => $request->store,
-            "requester" => $request->user()->id
+            "note_code"     => $noteCode,
+            "department"    => ($user->role == 1)? $request->department:$user->department,
+            // "store"         => $request->store,
+            "requester"     => $user->id
         ]);
 
         foreach($request->items as $item){
             $timestamp = time();
             $itemCode = "IC$timestamp";
             IssueNoteItem::create([
-                "item_code" => $itemCode,
-                "issue_note" => $noteCode,
-                "item_description" => $item["description"],
-                "issue_unit" => $item["unit"],
-                "requested" => $item["quantity"],
+                "item_code"         => $itemCode,
+                "issue_note"        => $noteCode,
+                "item_description"  => $item["description"],
+                "issue_unit"        => $item["unit"],
+                "requested"         => $item["quantity"],
             ]);
         }
 

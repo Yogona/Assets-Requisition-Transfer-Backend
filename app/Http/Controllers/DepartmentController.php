@@ -102,8 +102,17 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
+    public function destroy(Request $request, $departId)
     {
-        //
+        $depart = Department::find($departId);
+
+        $depart->delete();
+
+        return $this->response->__invoke(
+            true,
+            "Department was deleted!",
+            201,
+            null
+        );
     }
 }

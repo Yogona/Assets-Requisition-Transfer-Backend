@@ -12,4 +12,8 @@ class IssueNoteItem extends Model
     protected $guarded = [
         "created_at", "updated_at"
     ];
+
+    public function issueNote(){
+        return $this->belongsTo(IssueNote::class, "issue_note", "note_code");
+    }
 }

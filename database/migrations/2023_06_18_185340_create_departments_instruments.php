@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('issue_notes', function (Blueprint $table) {
-            $table->string("note_code");
+        Schema::create('departments_instruments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("instrument");
+            $table->unsignedInteger("quantity");
             $table->unsignedBigInteger("department");
-            // $table->unsignedBigInteger("store");
-            $table->unsignedBigInteger("requester");
-            $table->unsignedBigInteger("hod_signature")->nullable();
-            $table->unsignedBigInteger("store_officer_signature")->nullable();
             $table->timestamps();
 
-            $table->primary("note_code");
+            // $table->foreign("instrument")->references("instrument_code")->on("instruments");
+            $table->foreign("department")->references("id")->on("departments");
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('issue_notes');
+        Schema::dropIfExists('departments_instruments');
     }
 };

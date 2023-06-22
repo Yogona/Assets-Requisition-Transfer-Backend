@@ -20,7 +20,7 @@ class Authenticate extends Middleware
     protected function unauthenticated($request, array $guards)
     {
         throw new HttpResponseException(response()->json([
-            "success" => false, "Please login.", "data" => null
+            "success" => false, "message" => "Please login.", "data" => null
         ], 401));
     }
 }
