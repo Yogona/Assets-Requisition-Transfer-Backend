@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\DepartmentsInstruments;
 use App\Models\Instrument;
 use App\Models\IssueNoteItem;
@@ -26,12 +27,12 @@ class InstrumentController extends Controller
         $user = $request->user();
 
         if($user->role == 1){
-            $assets = DepartmentsInstruments::orderBy("id", "DESC")->paginate($records);
+            $departmentAssets = DepartmentsInstruments::orderBy("id", "DESC")->paginate($records);
         }else{
-            $assets = DepartmentsInstruments::where("department", $user->department)->paginate($records);
+            $departmentAssets = DepartmentsInstruments::where("department", $user->department)->paginate($records);
         }
 
-        $assetsNum = $assets->count();
+        $assetsNum = $departmentAssets->count();
         if ($assetsNum == 0) {
             return $this->res->__invoke(
                 false,
@@ -40,20 +41,51 @@ class InstrumentController extends Controller
             );
         }
 
+        foreach($departmentAssets as $departmentAsset){
+            $asset = Instrument::where("instrument_code", $departmentAsset->instrument)->first();
+            $departmentAsset->instrument = $asset;
+
+            $department = Department::find($departmentAsset->department);
+            $departmentAsset->department = $department;
+        }
+
         return $this->res->__invoke(
             true,
             "Assets were retrieved.",
             200,
-            $assets
+            $departmentAssets
         );
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Department assets
      */
-    public function store(Request $request)
+    public function listAssets(Request $request, $department)
     {
-        //
+        $departmentAssets = DepartmentsInstruments::where("department", $department)->get();
+        
+        if($departmentAssets->count() == 0){
+            return $this->res->__invoke(
+                false,
+                "Assets not found.",
+                404
+            );
+        }
+
+        foreach ($departmentAssets as $departmentAsset) {
+            $asset = Instrument::where("instrument_code", $departmentAsset->instrument)->first();
+            $departmentAsset->instrument = $asset;
+
+            $department = Department::find($departmentAsset->department);
+            $departmentAsset->department = $department;
+        }
+
+        return $this->res->__invoke(
+            true,
+            "Assets were retrieved.",
+            200,
+            $departmentAssets
+        );
     }
 
     /**

@@ -30,7 +30,7 @@ class NoteItemController extends Controller
         if($noteInstrumentsNum == 0){
             return $this->res->__invoke(
                 false,
-                "Note instruments not found.",
+                "Note assets not found.",
                 404
             );
         }

@@ -9,6 +9,8 @@ use App\Http\Controllers\NoteItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\TransferRequestController;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Role;
@@ -33,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/user', function (Request $request) {
             $user = $request->user();
             $user->role = Role::find($user->role);
+            $user->department = Department::find($user->department);
             return $user;
         });
         Route::post("logout", "logout");
@@ -85,10 +88,20 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::post("register", "registerByRequesition");
     });
 
-    // Instruments
-    Route::controller(InstrumentController::class)->prefix("assets")->group(function(){
-        Route::get("records/{records}", "index");
+    // Assets
+    Route::prefix("assets")->group(function(){
+        Route::controller(InstrumentController::class)->group(function(){
+            Route::get("records/{records}", "index");
+            Route::get("department/{department_id}", "listAssets");
+        });
+
+        //Asset transfer requests
+        Route::controller(TransferRequestController::class)->prefix("transfers")->group(function(){
+            Route::get("records/{records}", "index");
+        });
     });
+
+    
 });
 
 Route::fallback(function () {
