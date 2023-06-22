@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DepartmentsInstruments;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,10 @@ class DepartmentsInstrumentsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DepartmentsInstruments::create([
+            "instrument"    => "IC123456789",
+            "quantity"      => 10,
+            "department"    => 1
+        ]);
     }
 }

@@ -85,10 +85,10 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::post("register", "registerByRequesition");
     });
 
-    //Instruments
-    // Route::controller(InstrumentController::class)->prefix("instruments")->group(function(){
-        
-    // });
+    // Instruments
+    Route::controller(InstrumentController::class)->prefix("assets")->group(function(){
+        Route::get("records/{records}", "index");
+    });
 });
 
 Route::fallback(function () {

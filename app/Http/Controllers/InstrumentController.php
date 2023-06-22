@@ -21,9 +21,31 @@ class InstrumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $records)
     {
-        //
+        $user = $request->user();
+
+        if($user->role == 1){
+            $assets = DepartmentsInstruments::orderBy("id", "DESC")->paginate($records);
+        }else{
+            $assets = DepartmentsInstruments::where("department", $user->department)->paginate($records);
+        }
+
+        $assetsNum = $assets->count();
+        if ($assetsNum == 0) {
+            return $this->res->__invoke(
+                false,
+                "Assets not found.",
+                404
+            );
+        }
+
+        return $this->res->__invoke(
+            true,
+            "Assets were retrieved.",
+            200,
+            $assets
+        );
     }
 
     /**
