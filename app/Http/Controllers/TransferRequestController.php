@@ -22,7 +22,7 @@ class TransferRequestController extends Controller
         $transferRequests = TransferRequest::paginate($records);
 
         $transferRequestsNum = $transferRequests->count();
-        if ($transferRequestsNum == 0) {
+        if($transferRequestsNum == 0) {
             return $this->res->__invoke(
                 false,
                 "No assets transfer requests.",
