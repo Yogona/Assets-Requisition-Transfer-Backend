@@ -37,6 +37,18 @@ class UserSeeder extends Seeder
             "department" => 1
         ]);
 
+        User::create([ //HOD
+            "first_name" => "John2",
+            "last_name" => "Nolan2",
+            "username" => "hod2@localhost",
+            "email" => "hod2@localhost",
+            "phone" => "255711223352",
+            "gender" => "M",
+            "password" => Hash::make("1234"),
+            "role" => 2,
+            "department" => 2
+        ]);
+
         User::create([
             "first_name" => "Nyler",
             "last_name" => "Harper",

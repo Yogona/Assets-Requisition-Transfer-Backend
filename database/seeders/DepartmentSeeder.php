@@ -14,17 +14,20 @@ class DepartmentSeeder extends Seeder
     public function run(): void
     {
         Department::create([
-            'name'          => 'COMPUTER SYSTEMS AND MATHEMATICS (CSM)',
+            'name'          => 'COMPUTER SYSTEMS AND MATHEMATICS',
+            "abbreviation"  => "CSM",
             'description'   => '',
         ]);
 
         Department::create([
-            'name'          => 'GEOSPACIAL SCIENCE AND TECHNOLOGY (GST)',
+            'name'          => 'GEOSPACIAL SCIENCE AND TECHNOLOGY',
+            "abbreviation"  => "GST",
             'description'   => '',
         ]);
 
         Department::create([
-            'name'          => 'DEPARTMENT OF BUSNESS STUDIES (DBS)',
+            'name'          => 'DEPARTMENT OF BUSNESS STUDIES',
+            "abbreviation"  => "DBS",
             'description'   => '',
         ]);
     }

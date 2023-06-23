@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("from_department");
             $table->unsignedBigInteger("to_department");
-            $table->unsignedBigInteger("release_sign");
-            $table->unsignedBigInteger("acceptance_sign");
-            $table->unsignedBigInteger("approval_sign");
+            $table->unsignedBigInteger("release_sign")->nullable();
+            $table->unsignedBigInteger("acceptance_sign")->nullable();
+            $table->unsignedBigInteger("approval_sign")->nullable();
             $table->timestamps();
         });
     }

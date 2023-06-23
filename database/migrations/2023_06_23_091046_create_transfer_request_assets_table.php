@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('transfer_request_assets', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 50);
-            $table->string("abbreviation");
-            $table->text("description")->nullable();
-            $table->softDeletes();
+            $table->unsignedBigInteger("department_asset");
+            $table->unsignedInteger("quantity");
+            $table->unsignedBigInteger("transfer_request");
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('transfer_request_assets');
     }
 };

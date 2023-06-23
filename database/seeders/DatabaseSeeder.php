@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             IssueNoteItemSeeder::class,
             InstrumentSeeder::class,
             DepartmentsInstrumentsSeeder::class,
+            TransferRequestSeeder::class,
+            TransferRequestAssetsSeeder::class,
         ]);
     }
 }

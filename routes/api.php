@@ -9,11 +9,13 @@ use App\Http\Controllers\NoteItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\TransferRequestAssetsController;
 use App\Http\Controllers\TransferRequestController;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Role;
+use App\Models\TransferRequestAssets;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,9 +99,19 @@ Route::middleware('auth:sanctum')->group(function(){
         });
 
         //Asset transfer requests
-        Route::controller(TransferRequestController::class)->prefix("transfers")->group(function(){
-            Route::get("records/{records}", "index");
+        Route::prefix("transfers")->group(function(){
+            Route::controller(TransferRequestController::class)->group(function(){
+                 Route::get("records/{records}", "index");
+                Route::post("request", "create");
+                Route::patch("sign", "sign");
+            });
+           
+            Route::controller(TransferRequestAssetsController::class)->group(function(){
+                Route::get("request/{request_id}/records/{records}", "index");
+            });
         });
+
+        
     });
 
     
