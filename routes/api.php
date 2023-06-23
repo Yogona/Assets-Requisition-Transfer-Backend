@@ -93,6 +93,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::controller(InstrumentController::class)->group(function(){
             Route::get("records/{records}", "index");
             Route::get("department/{department_id}", "listAssets");
+            Route::post("register", "store");
         });
 
         //Asset transfer requests

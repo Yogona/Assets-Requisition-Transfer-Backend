@@ -89,11 +89,27 @@ class InstrumentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Register an asset
      */
-    public function show(Instrument $instrument)
+    public function store(Request $request)
     {
-        //
+        $instrumentCode = "ARU".time();
+
+        $asset = Instrument::create([
+            "instrument_code"   => $instrumentCode,
+            "description"       => $request->description,
+            "unit"              => $request->unit,
+        ]);
+
+        DepartmentsInstruments::create([
+            "instrument"    => $asset->instrument_code,
+            "quantity"      => $request->quantity,
+            "department"    => $request->department
+        ]);
+
+        return $this->res->__invoke(
+            true, "Asset has been registered.", 201
+        );
     }
 
     /**
