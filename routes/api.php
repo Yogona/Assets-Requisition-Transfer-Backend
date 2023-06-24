@@ -85,10 +85,10 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get("counter", [CounterController::class, "__invoke"]);
 
-    //Note instruments
+    //Note assets
     Route::controller(NoteItemController::class)->prefix("instruments/note/{note_code}")->group(function(){
         Route::get("records/{records}", "index");
-        Route::post("register", "registerByRequesition");
+        Route::post("register/{item_code}", "registerByRequesition");
     });
 
     // Assets

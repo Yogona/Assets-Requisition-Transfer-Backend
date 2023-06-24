@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedInteger("supplied")->nullable();
             $table->string("unit_price")->nullable();
             $table->unsignedFloat("total_value")->nullable();
+            $table->boolean("registered")->default(false);
             $table->timestamps();
 
             $table->primary("item_code");

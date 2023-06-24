@@ -44,26 +44,27 @@ class NoteItemController extends Controller
     }
 
     /**
-     * Registers instruments from requisition note
+     * Registers assets from requisition note
      */
-    public function registerByRequesition(Request $request, $noteCode)
+    public function registerByRequesition(Request $request, $noteCode, $itemCode)
     {
-        $issueNoteItem = IssueNoteItem::where("issue_note", $noteCode)->first();
-
         try {
             DB::beginTransaction();
-
+            $issueNoteItem = IssueNoteItem::where("item_code", $itemCode)->first();
+    
             $issueNoteItem->update([
-                "supplied" => $issueNoteItem->requested
+                "supplied"      => $issueNoteItem->requested,
+                "registered"    => true
             ]);
 
+            $issueNote  = $issueNoteItem->issueNote()->first();
+            $department = $issueNote->department()->first();
+
             $instrument = Instrument::create([
-                "instrument_code"   => "IC".time(),
+                "instrument_code"   => "ARU/$department->department_number/$department->building_number/$issueNoteItem->item_description/".time(),
                 "description"       => $issueNoteItem->item_description,
                 "unit"              => $issueNoteItem->issue_unit
             ]);
-
-            $issueNote = $issueNoteItem->issueNote()->first();
 
             DepartmentsInstruments::create([
                 "instrument"    => $instrument->instrument_code,
@@ -72,12 +73,6 @@ class NoteItemController extends Controller
             ]);
 
             DB::commit();
-
-            return $this->res->__invoke(
-                true,
-                "Asset has been registered and recorded to the department.",
-                201
-            );
         } catch (QueryException $exc) {
             DB::rollBack();
             return $this->res->__invoke(
@@ -86,6 +81,12 @@ class NoteItemController extends Controller
                 500
             );
         }
+
+        return $this->res->__invoke(
+            true,
+            "Asset has been registered and recorded to the department.",
+            201
+        );
     }
 
     /**
