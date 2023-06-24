@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\DepartmentsInstruments;
 use App\Models\TransferRequest;
 use App\Models\TransferRequestAssets;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransferRequestController extends Controller
 {
@@ -105,7 +108,33 @@ class TransferRequestController extends Controller
         }
 
         if($transferRequest->release_sign && $transferRequest->acceptance_sign && $transferRequest->approval_sign){
-            
+            foreach($transferRequest->transferRequestAssets()->get() as $transferRequestAsset){
+                try{
+                    //Reduce assets from department
+                    $departmentAsset = $transferRequestAsset->departmentAsset()->first();
+                    $departmentAsset->quantity -= $transferRequestAsset->quantity;
+                    $departmentAsset->save();
+
+                    $toDepartmentAsset = DepartmentsInstruments::where("department", $transferRequest->to_department)
+                    ->where("instrument", $departmentAsset->instrument)->first();
+
+                    //Add assets to department
+                    if($toDepartmentAsset){
+                        //It was added alread, then add more
+                        $toDepartmentAsset->quantity += $transferRequestAsset->quantity;
+                        $toDepartmentAsset->save();
+                    }else{
+                        //If it is first time then create 
+                        DepartmentsInstruments::create([
+                            "instrument"    => $departmentAsset->instrument,
+                            "quantity"      => $transferRequestAsset->quantity,
+                            "department"    => $transferRequest->to_department
+                        ]);
+                    }
+                }catch(QueryException $exc){
+                    DB::rollBack();
+                }
+            }       
         }
 
         return $this->res->__invoke(

@@ -14,7 +14,7 @@ class DepartmentsInstrumentsSeeder extends Seeder
     public function run(): void
     {
         DepartmentsInstruments::create([
-            "instrument"    => "IC123456789",
+            "instrument"    => "ARU/01/01/Samsung/1687639487",
             "quantity"      => 10,
             "department"    => 1
         ]);

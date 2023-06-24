@@ -12,4 +12,8 @@ class TransferRequestAssets extends Model
     protected $guarded = [
         "created_at", "updated_at"
     ];
+
+    public function departmentAsset(){
+        return $this->belongsTo(DepartmentsInstruments::class, "department_asset");
+    }
 }

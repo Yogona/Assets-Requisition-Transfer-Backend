@@ -14,7 +14,7 @@ class InstrumentSeeder extends Seeder
     public function run(): void
     {
         Instrument::create([
-            "instrument_code"   => "IC123456789",
+            "instrument_code"   => "ARU/01/01/Samsung/1687639487",
             "description"       => "Mouse",
             "unit"              => "PCs"
         ]);

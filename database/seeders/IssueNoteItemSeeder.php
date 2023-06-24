@@ -14,7 +14,7 @@ class IssueNoteItemSeeder extends Seeder
     public function run(): void
     {
         IssueNoteItem::create([
-            "item_code" => "IC1686191983",
+            "item_code" => "ARU/01/01/Samsung/1687639487",
             "issue_note" => "IN1686191983",
             "item_description" => "Samsung",
             "issue_unit" => "pcs",

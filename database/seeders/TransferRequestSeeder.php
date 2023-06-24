@@ -16,6 +16,8 @@ class TransferRequestSeeder extends Seeder
         TransferRequest::create([
             "from_department"   => 1,
             "to_department"     => 2,
+            "release_sign"      => 2,
+            "acceptance_sign"   => 3,
         ]);
     }
 }

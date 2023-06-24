@@ -88,7 +88,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Note assets
     Route::controller(NoteItemController::class)->prefix("instruments/note/{note_code}")->group(function(){
         Route::get("records/{records}", "index");
-        Route::post("register/{item_code}", "registerByRequesition");
+        Route::post("register", "registerByRequesition");
     });
 
     // Assets

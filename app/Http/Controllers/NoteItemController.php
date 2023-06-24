@@ -46,11 +46,11 @@ class NoteItemController extends Controller
     /**
      * Registers assets from requisition note
      */
-    public function registerByRequesition(Request $request, $noteCode, $itemCode)
+    public function registerByRequesition(Request $request, $noteCode)
     {
         try {
             DB::beginTransaction();
-            $issueNoteItem = IssueNoteItem::where("item_code", $itemCode)->first();
+            $issueNoteItem = IssueNoteItem::where("item_code", $request->itemCode)->first();
     
             $issueNoteItem->update([
                 "supplied"      => $issueNoteItem->requested,

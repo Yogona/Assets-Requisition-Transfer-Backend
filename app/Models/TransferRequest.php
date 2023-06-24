@@ -12,4 +12,8 @@ class TransferRequest extends Model
     protected $guarded = [
         "created_at", "updated_at"
     ];
+
+    public function transferRequestAssets(){
+        return $this->hasMany(TransferRequestAssets::class, "transfer_request");
+    }
 }
