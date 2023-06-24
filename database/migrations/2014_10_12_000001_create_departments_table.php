@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string("name", 50);
             $table->string("abbreviation");
             $table->text("description")->nullable();
+            $table->string("department_number");
+            $table->string("building_number");
             $table->softDeletes();
             $table->timestamps();
         });

@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Departments
     Route::controller(DepartmentController::class)->prefix('departs')->group(function(){
         Route::post('create', 'create');
+        Route::put("update/{department_id}", "update");
         Route::delete("delete/{depart_id}", "destroy");
         Route::get('list', 'list');
         Route::get('', 'index');

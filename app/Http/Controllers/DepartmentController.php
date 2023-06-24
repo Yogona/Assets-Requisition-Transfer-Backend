@@ -94,9 +94,24 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $departmentId)
     {
-        //
+        $department = Department::find($departmentId);
+
+        $department->update([
+            "name"              => $request->name,
+            "description"       => $request->description,
+            "abbreviation"      => $request->abbreviation,
+            "building_number"   => $request->buildingNumber,
+            "department_number" => $request->departmentNumber,
+        ]);
+
+        return $this->response->__invoke(
+            true,
+            "Department was updated successfully.",
+            200,
+            $department
+        );
     }
 
     /**
