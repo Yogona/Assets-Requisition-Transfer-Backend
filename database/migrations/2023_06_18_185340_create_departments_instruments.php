@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments_instruments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("instrument");
+            $table->string("instrument");
             $table->unsignedInteger("quantity");
             $table->unsignedBigInteger("department");
             $table->timestamps();
