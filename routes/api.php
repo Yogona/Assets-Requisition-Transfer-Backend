@@ -30,6 +30,18 @@ use App\Models\TransferRequestAssets;
 
 Route::controller(AuthController::class)->group(function(){
     Route::post("login", "login");
+    Route::post("register", "register");
+});
+
+//Departments
+Route::controller(DepartmentController::class)->prefix('departs')->group(function () {
+    Route::middleware("auth:sanctum")->group(function(){
+        Route::post('create', 'create');
+        Route::put("update/{department_id}", "update");
+        Route::delete("delete/{depart_id}", "destroy");
+        Route::get('', 'index');
+    });
+    Route::get('list', 'list');
 });
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -45,15 +57,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     //Roles
     Route::controller(RoleController::class)->prefix('roles')->group(function(){
-        Route::get('', 'index');
-    });
-
-    //Departments
-    Route::controller(DepartmentController::class)->prefix('departs')->group(function(){
-        Route::post('create', 'create');
-        Route::put("update/{department_id}", "update");
-        Route::delete("delete/{depart_id}", "destroy");
-        Route::get('list', 'list');
         Route::get('', 'index');
     });
 

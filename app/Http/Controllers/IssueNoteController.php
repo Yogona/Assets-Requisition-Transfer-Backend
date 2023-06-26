@@ -30,7 +30,7 @@ class IssueNoteController extends Controller
         if($user->role == 2 || $user->role == 3 || $user->role == 5){ //HOD , HPMU or Supplies officer
             $issueNotes = IssueNote::where("department", $user->department);
         } else{
-            $issueNotes = IssueNote::orderBy("created_at", "DESC");
+            $issueNotes = IssueNote::where("requester", $user->id)->orderBy("created_at", "DESC");
         }
 
         $notesNum = $issueNotes->count();
