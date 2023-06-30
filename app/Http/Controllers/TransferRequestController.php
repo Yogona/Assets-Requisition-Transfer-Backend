@@ -25,7 +25,15 @@ class TransferRequestController extends Controller
      */
     public function index(Request $request, $records)
     {
-        $transferRequests = TransferRequest::paginate($records);
+        $user = $request->user();
+
+        
+        if($user->role == 1 || $user->role == 4){
+            $transferRequests = TransferRequest::paginate($records);
+        }else if($user->role == 2){
+            $transferRequests = TransferRequest::where("from_department", $user->department)
+            ->orWhere("to_department", $user->department)->paginate($records);
+        }
 
         $transferRequestsNum = $transferRequests->count();
         if($transferRequestsNum == 0) {
