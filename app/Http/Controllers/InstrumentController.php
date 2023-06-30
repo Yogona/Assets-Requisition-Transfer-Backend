@@ -26,7 +26,7 @@ class InstrumentController extends Controller
     {
         $user = $request->user();
 
-        if($user->role == 1){
+        if($user->role == 1 || $user->role == 4){
             $departmentAssets = DepartmentsInstruments::orderBy("id", "DESC")->paginate($records);
         }else{
             $departmentAssets = DepartmentsInstruments::where("department", $user->department)->paginate($records);
