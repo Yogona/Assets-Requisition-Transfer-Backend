@@ -17,14 +17,14 @@ class ReportController extends Controller
     private function getReports($from, $to)
     {
         $departmentInstruments = DepartmentsInstruments::where("created_at", ">=", $from)
-        ->where("created_at", "<=", $to)->get();
+        ->where("created_at", "<=", $to."23:59:59")->orderBy("department")->get();
 
         foreach ($departmentInstruments as $departmentInstrument) {
-            // $instrument = Instrument::where("instrument", $departmentInstrument->instrument)->first();
-            // $departmentInstrument->instrument = $instrument;
+            $instrument = Instrument::where("instrument_code", $departmentInstrument->instrument)->first();
+            $departmentInstrument->instrument = $instrument;
 
-            // $department = Department::find($departmentInstrument->department);
-            // $departmentInstrument->department = $department;
+            $department = Department::find($departmentInstrument->department);
+            $departmentInstrument->department = $department;
         }
 
         return $departmentInstruments;
@@ -35,7 +35,7 @@ class ReportController extends Controller
      */
     public function create(Request $request, $from, $to)
     {
-        $pdf = PDF::loadView("report", $this->getReports($from, $to));
+        $pdf = PDF::loadView("report", ["assets"=>$this->getReports($from, $to)]);
 
         return $pdf->download("report.pdf");
     }
@@ -53,7 +53,7 @@ class ReportController extends Controller
      */
     public function show(Request $request, $from, $to)
     {
-        return view("report", ["instruments" => $this->getReports($from, $to)]);
+        return view("report", ["assets" => $this->getReports($from, $to)]);
     }
 
     /**

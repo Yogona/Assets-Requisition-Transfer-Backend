@@ -24,24 +24,32 @@
             <th>
                 Quantity
             </th>
+            <th>
+                Department
+            </th>
         </thead>
 
-        <body>
-            @foreach($instruments as $instrument)
-            <td>
-                {{$instrument->created_at}}
-            </td>
-            <td>
-                {{$instrument->instrument}}
-            </td>
-            <td>
-                {{$instrument->instrument}}
-            </td>
-            <td>
-                {{$instrument->quantity}}
-            </td>
+        <tbody>
+            @foreach($assets as $asset)
+            <tr>
+                <td>
+                    {{$asset->created_at}}
+                </td>
+                <td>
+                    {{$asset->instrument->instrument_code}}
+                </td>
+                <td>
+                    {{$asset->instrument->description}}
+                </td>
+                <td>
+                    {{$asset->quantity}}
+                </td>
+                <td>
+                    {{$asset->department->name}}
+                </td>
+            </tr>
             @endforeach
-        </body>
+        </tbody>
     </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
