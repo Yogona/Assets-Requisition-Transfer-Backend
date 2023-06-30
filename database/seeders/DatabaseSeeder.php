@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\DepartmentsInstruments;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,5 +34,7 @@ class DatabaseSeeder extends Seeder
             TransferRequestSeeder::class,
             TransferRequestAssetsSeeder::class,
         ]);
+
+        User::factory(100)->create();
     }
 }

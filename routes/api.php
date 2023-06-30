@@ -6,6 +6,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\IssueNoteController;
 use App\Http\Controllers\NoteItemController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
@@ -115,9 +116,12 @@ Route::middleware('auth:sanctum')->group(function(){
             });
         });
 
-        
     });
-
+    
+    //Reports
+    Route::prefix("reports")->controller(ReportController::class)->group(function(){
+        Route::get("generate/from/{from}/to/{to}", "create");
+    });
     
 });
 
