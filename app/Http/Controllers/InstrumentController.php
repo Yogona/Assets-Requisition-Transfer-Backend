@@ -93,7 +93,8 @@ class InstrumentController extends Controller
      */
     public function store(Request $request)
     {
-        $instrumentCode = "ARU".time();
+        $department = Department::find($request->department);
+        $instrumentCode = "ARU/$department->building_number/$department->department_number/$request->description/".time();
 
         $asset = Instrument::create([
             "instrument_code"   => $instrumentCode,
