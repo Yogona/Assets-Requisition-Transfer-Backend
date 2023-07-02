@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->char('gender', 1);
             $table->string("email")->unique();
-            $table->string("phone", 15)->unique();
+            $table->string("phone", 20)->unique();
             $table->string('password')->default('123456');
             $table->unsignedBigInteger("role")->default(7);
             $table->unsignedBigInteger("department")->nullable()->default(NULL);
