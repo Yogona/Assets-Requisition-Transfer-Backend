@@ -35,6 +35,6 @@ class DatabaseSeeder extends Seeder
             TransferRequestAssetsSeeder::class,
         ]);
 
-        User::factory(100)->create();
+        // User::factory(100)->create();
     }
 }

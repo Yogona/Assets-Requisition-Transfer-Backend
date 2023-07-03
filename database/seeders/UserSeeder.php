@@ -25,11 +25,11 @@ class UserSeeder extends Seeder
             "role" => 1,
         ]);
 
-        User::create([//HOD
-            "first_name" => "John",
-            "last_name" => "Nolan",
-            "username" => "hod@localhost",
-            "email" => "hod@localhost",
+        User::create([//CSM HOD
+            "first_name" => "Jimson",
+            "last_name" => "Chaki",
+            "username" => "csmhod@localhost",
+            "email" => "csmhod@localhost",
             "phone" => "255711223345",
             "gender" => "M",
             "password" => Hash::make("1234"),
@@ -37,16 +37,28 @@ class UserSeeder extends Seeder
             "department" => 1
         ]);
 
-        User::create([ //HOD
-            "first_name" => "John2",
-            "last_name" => "Nolan2",
-            "username" => "hod2@localhost",
-            "email" => "hod2@localhost",
+        User::create([//GST HOD
+            "first_name" => "Boaz",
+            "last_name" => "Mwakyembe",
+            "username" => "gsthod@localhost",
+            "email" => "gsthod@localhost",
             "phone" => "255711223352",
             "gender" => "M",
             "password" => Hash::make("1234"),
             "role" => 2,
             "department" => 2
+        ]);
+
+        User::create([ //DBS HOD
+            "first_name" => "Joram",
+            "last_name" => "Simon",
+            "username" => "dbshod@localhost",
+            "email" => "dbshod@localhost",
+            "phone" => "255711223356",
+            "gender" => "M",
+            "password" => Hash::make("1234"),
+            "role" => 2,
+            "department" => 3
         ]);
 
         User::create([
@@ -98,15 +110,39 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            "first_name" => "Rachel",
-            "last_name" => "Mwendapole",
-            "username" => "staff@localhost",
-            "email" => "staff@localhost",
+            "first_name" => "CSM",
+            "last_name" => "Staff",
+            "username" => "csmstaff@localhost",
+            "email" => "csmstaff@localhost",
             "phone" => "255711223350",
             "gender" => "F",
             "password" => Hash::make("1234"),
             "role" => 7,
             "department" => 1
+        ]);
+
+        User::create([
+            "first_name" => "GST",
+            "last_name" => "Staff",
+            "username" => "gststaff@localhost",
+            "email" => "gststaff@localhost",
+            "phone" => "255711223354",
+            "gender" => "F",
+            "password" => Hash::make("1234"),
+            "role" => 7,
+            "department" => 2
+        ]);
+
+        User::create([
+            "first_name" => "DBS",
+            "last_name" => "Staff",
+            "username" => "dbsstaff@localhost",
+            "email" => "dbsstaff@localhost",
+            "phone" => "255711223355",
+            "gender" => "F",
+            "password" => Hash::make("1234"),
+            "role" => 7,
+            "department" => 3
         ]);
 
         User::create([
