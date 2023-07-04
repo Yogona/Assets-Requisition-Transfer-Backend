@@ -101,10 +101,22 @@ class TransferRequestController extends Controller
 
         $transferRequest = TransferRequest::find($request->transferId);
 
-        if($user->role == 2 && $user->department == $transferRequest->from_department){
-            $transferRequest->update(["release_sign" => $user->id]);
-        } else if($user->role == 2 && $user->department == $transferRequest->to_department){
-            $transferRequest->update(["acceptance_sign" => $user->id]);
+        if($user->role == 2){
+            switch($user->department){
+                case $transferRequest->from_department:{
+                    $transferRequest->update(["release_sign" => $user->id]);
+                }
+                break;
+
+                case $transferRequest->to_department: {
+                    $transferRequest->update(["acceptance_sign" => $user->id]);
+                }
+                break;
+
+                default: {
+
+                }
+            }
         } else if($user->role == 4){
             $transferRequest->update(["approval_sign" => $user->id]);
         } else {
