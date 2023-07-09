@@ -28,7 +28,7 @@ class TransferRequestController extends Controller
         $user = $request->user();
 
         
-        if($user->role == 1 || $user->role == 4){
+        if($user->role == 1 || $user->role == 3 || $user->role == 4){
             $transferRequests = TransferRequest::paginate($records);
         }else if($user->role == 2){
             $transferRequests = TransferRequest::where("from_department", $user->department)
@@ -57,8 +57,11 @@ class TransferRequestController extends Controller
             $toHOD = User::find($transferRequest->acceptance_sign);
             $transferRequest->acceptance_sign = $toHOD;
 
-            $custodian = User::find($transferRequest->approval_sign);
-            $transferRequest->approval_sign = $custodian;
+            $dean = User::find($transferRequest->dean_sign);
+            $transferRequest->dean_sign = $dean;
+
+            $custodian = User::find($transferRequest->custodian_sign);
+            $transferRequest->custodian_sign = $custodian;
         }
 
         return $this->res->__invoke(
@@ -74,8 +77,11 @@ class TransferRequestController extends Controller
      */
     public function create(Request $request)
     {
+        $user = $request->user();
+
+        $fromDepartment = ($user->role == 1)?$request->fromDepartment:$user->department;
         $transferRequest = TransferRequest::create([
-            "from_department"   => $request->fromDepartment,
+            "from_department"   => $fromDepartment,
             "to_department"     => $request->toDepartment,
         ]);
 
@@ -117,8 +123,12 @@ class TransferRequestController extends Controller
 
                 }
             }
-        } else if($user->role == 4){
-            $transferRequest->update(["approval_sign" => $user->id]);
+        } 
+        else if ($user->role == 3) {
+            $transferRequest->update(["dean_sign" => $user->id]);
+        }
+        else if($user->role == 4){
+            $transferRequest->update(["custodian_sign" => $user->id]);
         } else {
             return $this->res->__invoke(
                 false,
@@ -127,7 +137,10 @@ class TransferRequestController extends Controller
             );
         }
 
-        if($transferRequest->release_sign && $transferRequest->acceptance_sign && $transferRequest->approval_sign){
+        if(
+            $transferRequest->release_sign && $transferRequest->acceptance_sign 
+            && $transferRequest->dean_sign && $transferRequest->custodian_sign
+            ){
             foreach($transferRequest->transferRequestAssets()->get() as $transferRequestAsset){
                 try{
                     //Reduce assets from department

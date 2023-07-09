@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger("to_department");
             $table->unsignedBigInteger("release_sign")->nullable();
             $table->unsignedBigInteger("acceptance_sign")->nullable();
-            $table->unsignedBigInteger("approval_sign")->nullable();
+            $table->unsignedBigInteger("dean_sign")->nullable();
+            $table->unsignedBigInteger("custodian_sign")->nullable();
             $table->timestamps();
         });
     }

@@ -64,8 +64,8 @@ class UserSeeder extends Seeder
         User::create([
             "first_name" => "Nyler",
             "last_name" => "Harper",
-            "username" => "hpmu@localhost",
-            "email" => "hpmu@localhost",
+            "username" => "dean@localhost",
+            "email" => "dean@localhost",
             "phone" => "255711223346",
             "gender" => "F",
             "password" => Hash::make("1234"),
