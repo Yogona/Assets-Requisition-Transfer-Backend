@@ -19,7 +19,7 @@ class IssueNoteSeeder extends Seeder
             // "store"                     => 1,
             "requester"                 => 7,
             "hod_signature"             => 2,
-            "store_officer_signature"   => 8
+            // "store_officer_signature"   => 8
         ]);
     }
 }

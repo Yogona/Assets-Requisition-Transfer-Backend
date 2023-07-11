@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             IssueNoteSeeder::class,
             IssueNoteItemSeeder::class,
-            InstrumentSeeder::class,
-            DepartmentsInstrumentsSeeder::class,
+            // InstrumentSeeder::class,
+            // DepartmentsInstrumentsSeeder::class,
             TransferRequestSeeder::class,
             TransferRequestAssetsSeeder::class,
         ]);

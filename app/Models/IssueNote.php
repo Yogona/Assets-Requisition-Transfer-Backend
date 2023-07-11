@@ -16,4 +16,8 @@ class IssueNote extends Model
     public function department(){
         return $this->belongsTo(Department::class, "department");
     }
+
+    public function assets(){
+        return $this->hasMany(IssueNoteItem::class, "issue_note", "note_code");
+    }
 }

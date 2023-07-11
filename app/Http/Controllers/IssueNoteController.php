@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\DepartmentsInstruments;
+use App\Models\Instrument;
 use App\Models\IssueNote;
 use App\Models\IssueNoteItem;
 use App\Models\User;
@@ -141,6 +143,26 @@ class IssueNoteController extends Controller
                 "You can't sign",
                 403
             );
+        }
+
+        $issueNote = $issueNote->first();
+        if($issueNote->hod_signature && $issueNote->store_officer_signature){
+            $department = Department::find($issueNote->department);
+            foreach($issueNote->assets()->get() as $issueNoteItem){
+                $assetCode = "ARU/$department->building_number/$department->department_number/$issueNoteItem->item_description/" . time();
+
+                $asset = Instrument::create([
+                    "instrument_code"   => $assetCode,
+                    "description"       => $issueNoteItem->item_description,
+                    "unit"              => $issueNoteItem->issue_unit,
+                ]);
+
+                DepartmentsInstruments::create([
+                    "instrument"    => $asset->instrument_code,
+                    "quantity"      => $issueNoteItem->requested,
+                    "department"    => $department->id
+                ]);
+            }
         }
 
         return $this->res->__invoke(
