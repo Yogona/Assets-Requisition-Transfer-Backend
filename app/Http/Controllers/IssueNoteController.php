@@ -27,10 +27,11 @@ class IssueNoteController extends Controller
         $user = $request->user();
         $issueNotes = null;
 
-        if($user->role == 2 || $user->role == 3 || $user->role == 5){ //HOD , HPMU or Supplies officer
+        if($user->role == 2 || $user->role == 3){ //HOD or dean
             $issueNotes = IssueNote::where("department", $user->department);
         }
-        else if($user->role == 8){
+        else if($user->role == 5 || $user->role == 8){
+            //Supplies or store officer
             $issueNotes = IssueNote::orderBy("created_at", "DESC");
         }
         else{
